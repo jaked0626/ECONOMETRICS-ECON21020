@@ -1,0 +1,448 @@
+---
+title: "Problem Set 5"
+subtitle: "ECON 21020 Spring, 2021"
+author: 
+  - "Jake Underland, Groupmates: Ian Bamford, Matthew Chen"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: 
+    latex_engine: xelatex
+    extra_dependencies: ["amsmath"]
+    toc: false
+    keep_tex: yes
+  html_document:
+    toc: false
+    toc_depth: 3
+    toc_float: yes
+  word_document:
+    toc: false
+    toc_depth: '3'
+---
+</style>
+
+<style type="text/css">
+
+body, td {
+   font-size: 20px;
+}
+
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r, include = FALSE, eval = FALSE}
+install.packages("wooldridge")
+```
+```{r loading packages, include = FALSE}
+library(tidyr)
+library(dplyr)
+library(stargazer)
+library(wooldridge)
+library(knitr)
+```
+
+
+# Question 2.  
+
+The OLS problem is: 
+\[\min _ \beta \frac{1}{n}\Sigma(y_i-\beta x_i)^2\]
+FOCs: 
+\[\begin{aligned}
+\{\beta\}: \; \; &\frac{d}{d\beta} \frac{1}{n}\Sigma(y_i-\beta x_i)^2 = 0\\
+\implies& -2\frac{1}{n}\Sigma x_i(y_i-\beta x_i) = 0  \\
+\implies& -2 \frac{1}{n}\Sigma x_iy_i + 2 \beta \frac{1}{n}\Sigma x_i^2 = 0 \\
+\implies& \hat{\beta}= \frac{\Sigma x_iy_i}{\Sigma x_i^2}
+\end{aligned}\]
+Therefore, $\hat{\beta}$ is the OLS estimate of $\beta$. 
+For bias, 
+\[\begin{aligned} 
+\hat{\beta} &=  \frac{\Sigma x_iy_i}{\Sigma x_i^2}\\
+E[\hat{\beta}|x_1, \cdots, x_n] &= E[\frac{\Sigma x_iy_i}{\Sigma x_i^2}|x_1, \cdots, x_n]\\ 
+&= \frac{\Sigma x_i E[y_i|x_1, \cdots, x_n]}{\Sigma x_i^2}\\
+&= \frac{\Sigma x_i E[\beta x_i + u_i|x_1, \cdots, x_n]}{\Sigma x_i^2} \\
+&= \frac{\beta \Sigma x_i ^2  + \Sigma x_iE[u_i|x_1, \cdots, x_n]}{\Sigma x_i^2} \\
+&= \frac{\beta \Sigma x_i ^2}{\Sigma x_i^2}\\ 
+&= \beta  \\
+\implies E[\hat{\beta}] &= E[E[\hat{\beta} | x_1, \cdots, x_n]] = \beta
+\end{aligned}\]
+Thus, $\hat{\beta}$ is unbiased. 
+\[\begin{aligned} 
+\bar{\beta} &=  \frac{\Sigma y_i}{\Sigma x_i} \\
+E[\bar{\beta}|x_1, \cdots, x_n] &= E[\frac{\Sigma y_i}{\Sigma x_i}|x_1, \cdots, x_n]\\ 
+&= \frac{\Sigma E[\beta x_i + u_i|x_1, \cdots, x_n]}{\Sigma x_i}\\
+&= \frac{\beta \Sigma x_i  + \Sigma E[u_i|x_1, \cdots, x_n]}{\Sigma x_i} \\
+&= \frac{\beta \Sigma x_i}{\Sigma x_i}\\ 
+&= \beta \\
+\implies E[\bar{\beta}] &= E[E[\bar{\beta} | x_1, \cdots, x_n]] = \beta
+\end{aligned}\]
+
+Thus, the second estimator is also unbiased.  
+By the Gauss-Markov theorem, the OLS estimator would be the variance minimizing estimator under these assumptions. We can check as follows: 
+
+\[\begin{aligned}
+Var(\hat\beta|X) &= Var(\frac{\Sigma x_iy_i}{\Sigma x_i^2}|X) \\
+&\stackrel{MLR\:2}= \frac{\Sigma x_i^2Var(y_i|X)}{(\Sigma x_i^2)^2} \\
+&\stackrel{MLR\:5}= \frac{\sigma^2 \Sigma x_i^2}{(\Sigma x_i^2)^2} \\
+&= \frac{\sigma^2}{\Sigma x_i^2} \\
+\\
+Var(\bar\beta|X) &= Var(\frac{\Sigma y_i}{\Sigma x_i}|X) \\
+&\stackrel{MLR\:2}= \frac{\Sigma Var(y_i|X)}{(\Sigma x_i)^2} \\
+&\stackrel{MLR\:5}= \frac{n\sigma^2}{(\Sigma x_i)^2} \\
+&= \frac{n\sigma^2}{(\Sigma x_i)^2} \\
+&= \frac{n\sigma^2}{(n \bar x_n)^2} = \frac{\sigma^2}{n\bar{x_n}^2}
+\end{aligned}\]
+
+Now, we know from Jensen's inequality that variance is always greater than or equal to 0: 
+
+\[\begin{aligned}
+\frac{1}{n}\Sigma x_i^2 - \bar{x_n}^2 &\geq 0 \\
+\implies \Sigma x_i^2 - n\bar{x_n}^2 &\geq 0 \dots  \text{ Since $n>0$} \\
+\implies \Sigma x_i^2 &\geq n\bar{x_n}^2 \\
+\implies \frac{\sigma^2}{\Sigma x_i^2} &\leq \frac{\sigma^2}{n\bar{x_n}^2}
+\end{aligned}\]
+
+Thus, we have that the variance of the OLS estimate conditioned on $X= x_1, \dots, x_n$ has a smaller variance than the other estimate, confirming the Gauss-Markov principle. 
+
+# Question 3.  
+
+## 6. 
+
+\begin{enumerate}
+\item[(i)]
+Let 
+\[\beta \equiv
+\begin{pmatrix}
+\beta_0 \\
+\beta_1 \\
+\beta_2 \\
+\beta_3
+\end{pmatrix},
+Y \equiv \begin{pmatrix}
+y_1 \\ \vdots \\ y_n 
+\end{pmatrix}, X \equiv \begin{pmatrix}
+1 & x_{11} & x_{12} & x_{13} \\\vdots &\vdots&\vdots&\vdots \\ x_{n1} & x_{n2} & x_{n3} & x_{n4}
+\end{pmatrix}, 
+u \equiv \begin{pmatrix}
+u_1 \\ \vdots \\ u_n 
+\end{pmatrix}\]
+Then, $y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + u$ can be written as 
+\[Y = X\beta + u\] 
+and, as we know from class, the OLS estimator of $\beta$ is 
+\[\hat{\beta} = \begin{pmatrix} \hat{\beta_0} \\ \hat\beta_1 \\ \hat\beta_2 \\ \hat\beta_3 \end{pmatrix} = (X'X)^{-1} X' Y\]
+\[\begin{aligned} E(\hat\beta|X) = \begin{pmatrix} E(\hat{\beta_0}) \\ E(\hat\beta_1) \\ E(\hat\beta_2) \\ E(\hat\beta_3) \end{pmatrix} &= E((X'X)^{-1}X' Y|X)\\
+&=(X'X)^{-1}X'E(Y|X) \\
+&= (X'X)^{-1}X'E(X\beta|X) \\
+&= (X'X)^{-1}X'XE(\beta|X) \\
+&= \beta = \begin{pmatrix}
+\beta_0 \\
+\beta_1 \\
+\beta_2 \\
+\beta_3
+\end{pmatrix}
+\end{aligned}\]
+Thus, we have that $E(\hat\beta_1) = \beta_1, E(\hat\beta_2) = \beta_2$. Then, 
+\[E(\hat\theta_1) = E(\hat\beta_1 + \hat\beta_2) = E(\hat\beta_1) + E(\hat\beta_2) = \beta_1 + \beta_2 = \theta_1\]
+And thus $\hat\theta_1$ is an unbiased estimator of $\theta_1$. 
+
+\item[(ii)]
+\[\begin{aligned}
+Var(\hat\theta_1) &= Var(\hat\beta_1) + Var(\hat\beta_2) + 2Cov(\hat\beta_1,\hat\beta_2) \\
+&=  Var(\hat\beta_1) + Var(\hat\beta_2) + 2 Corr(\hat\beta_1,\hat\beta_2)\sqrt{Var(\hat\beta_1)Var(\hat\beta_2)}\end{aligned}\]  
+
+\end{enumerate}  
+
+
+## 11.  
+
+From class, we have 
+\[\begin{aligned}
+\tilde\beta_1 &=\frac{\Sigma_i \hat r_{i1}y_i}{\Sigma_i \hat r_{i1}^2} \\
+&= \frac{\Sigma_i \hat r_{i1}(\beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + \beta_3x_{i3} + u_i)}{\Sigma_i \hat r_{i1}^2} \\
+&= \frac{\beta_0\Sigma_i \hat r_{i1} + \beta_1 \Sigma_i \hat r_{i1}x_{i1} + \beta_2\Sigma_i \hat r_{i1}x_{i2} + \beta_3 \Sigma_i \hat r_{i1}x_{i3} + \Sigma_i \hat r_{i1}u_i}{\Sigma_i \hat r_{i1}^2} \\
+&= \beta_1 + \beta_3\frac{\Sigma_i \hat r_{i1}x_{i3}}{\Sigma_i \hat r_{i1}^2} +\frac{\Sigma_i \hat r_{i1}u_i}{\Sigma_i \hat r_{i1}^2}
+\end{aligned}\]
+Where the 4th equality follows from the properties of the residual of the regression $x_1$ on $x_2$:
+\[\begin{aligned}
+\Sigma_i \hat r_{i1} &= 0, \Sigma_i \hat r_{i1}x_{i2} = 0 \\
+\Sigma_i \hat r_{i1}x_{i1} &= \Sigma_i \hat r_{i1}(\hat r_{i1} + \hat x_{i1}) \\
+&= \Sigma_i \hat r_{i1}^2 + \Sigma_i \hat r_{i1}(\hat\gamma_0 + \hat\gamma_2x_{i2}) \\
+&= \Sigma_i \hat r_{i1}^2 + \hat\gamma_0\underbrace{\Sigma_i \hat r_{i1}}_{=0} + \hat\gamma_2\underbrace{\Sigma_i \hat r_{i1}x_{i2}}_{=0}\\
+&= \Sigma_i \hat r_{i1}^2
+\end{aligned}\]
+Thus, 
+\[\begin{aligned}
+E(\tilde\beta_1|X) &= E(\beta_1 + \beta_3\frac{\Sigma_i \hat r_{i1}x_{i3}}{\Sigma_i \hat r_{i1}^2} +\frac{\Sigma_i \hat r_{i1}u_i}{\Sigma_i \hat r_{i1}^2}|X) \\
+&= \beta_1 + \beta_3\frac{\Sigma_i \hat r_{i1}x_{i3}}{\Sigma_i \hat r_{i1}^2} +\frac{\Sigma_i \hat r_{i1}E(u_i|X)}{\Sigma_i \hat r_{i1}^2} \\
+&\stackrel{MLR\:4}= \beta_1 + \beta_3\frac{\Sigma_i \hat r_{i1}x_{i3}}{\Sigma_i \hat r_{i1}^2} 
+\end{aligned}\]  
+  
+## C6  
+
+```{r}
+library(wooldridge)
+data(wage2)
+```
+
+### (i)  
+
+```{r}
+simple1 <- lm(IQ ~ educ, data = wage2)
+delta_tilde <- simple1$coefficients
+delta_tilde
+```
+$\implies \tilde\delta_1 \approx 3.53$  
+
+### (ii)  
+```{r}
+simple2 <- lm(log(wage) ~ educ, data = wage2)
+beta_tilde <- simple2$coefficients
+beta_tilde
+```
+$\implies \tilde\beta_1 \approx 0.06$  
+\break
+
+### (iii)  
+
+```{r}
+multiple <- lm(log(wage) ~ educ + IQ, data = wage2)
+beta_hats <- multiple$coefficients
+beta_hats
+```  
+
+$\implies \hat\beta_1 \approx 0.04, \hat\beta_2 \approx 0.006$
+
+
+### (iv)
+
+```{r}
+beta_hats[2] + beta_hats[3] * delta_tilde[2]
+beta_hats[2] + beta_hats[3] * delta_tilde[2] == beta_tilde[2]
+```
+
+# Question 4. 
+
+## 8.  
+
+### (i)  
+\[Var(\hat\beta_1 - 3 \hat\beta_2) = Var(\hat\beta_1) + 9 Var(\hat\beta_2) -6Cov(\hat\beta_1, \hat\beta_2)\] 
+The standard error is 
+\[se(\hat\beta_1 - 3 \hat\beta_2) = \sqrt{Var(\hat\beta_1) + 9 Var(\hat\beta_2) -6Cov(\hat\beta_1, \hat\beta_2)}\]
+
+### (ii)  
+The t statistic is 
+\[T = \frac{\hat\beta_1 - 3 \hat\beta_2 - 1}{\sqrt{Var(\hat\beta_1) + 9 Var(\hat\beta_2) -6Cov(\hat\beta_1, \hat\beta_2)}}\]  
+  
+### (iii)  
+
+\[\begin{aligned}
+&\theta_1 = \beta_1 - 3 \beta_2 \\
+\implies& \beta_1 = \theta_1 + 3 \beta_2
+\end{aligned}\]
+Thus, 
+\[\begin{aligned}
+\theta_1 &= \beta_1 - 3 \beta_2 \\
+\implies \beta_1 &= \theta_1 + 3 \beta_2 \\
+y &= \beta_0 + (\theta_1 + 3\beta_2)x_1 + \beta_2 x_2 + \beta_3 x_3 + u \\
+&= \beta_0 + \theta_1x_1 + \beta_2 (3x_1 +x_2) + \beta_3 x_3 + u 
+\end{aligned}\]
+We can directly obtain $\hat\theta_1$ and its standard error by estimating the coefficient and standard error on $x_1$ in the above regression.  
+  
+## C3  
+
+### (i)  
+
+```{r}
+data("hprice1")
+```
+```{r}
+log_price_basic <- lm(log(price) ~ sqrft + bdrms, data = hprice1)
+log_price_basic$coefficients
+theta <- 150 * log_price_basic$coefficients[2] + log_price_basic$coefficients[3]
+paste("Coefficient of theta is", theta)
+```
+
+### (ii)  
+
+Since $\beta_2 = \theta_1 - 150 \beta_1$, 
+\[\ln(price) = \beta_0 + \beta_1(sqrft - 150 bdrms) + \theta_1 bdrms + u\]
+
+### (iii)  
+
+```{r}
+# create sqrft - 150 bdrms
+hprice1$sqrft150bdrms = hprice1$sqrft - 150 * hprice1$bdrms
+log_price_plugged <- lm(log(price) ~ sqrft150bdrms + bdrms, data = hprice1)
+t_conf_intervals <- confint(log_price_plugged)
+```
+
+```{r, results="asis"}
+# 95 % confidence intervals reported below coefficients, 
+# theta is coefficient of bdrms
+stargazer(log_price_plugged, header = FALSE, type = "latex", 
+          ci.custom=list(t_conf_intervals))
+```
+
+## C5.  
+  
+```{r}
+library(equatiomatic)
+```
+
+### (i)  
+
+```{r}
+data(mlb1)
+log_salary_1 <- lm(log(salary) ~ years + gamesyr + bavg + hrunsyr, data=mlb1)
+summary(log_salary_1)
+```
+```{r, results="asis"}
+extract_eq(log_salary_1, use_coefs = TRUE, raw_tex = TRUE)
+```
+
+Both statsitical significance and coefficient of $hrunsyr$ increases.   
+
+### (ii)  
+
+```{r}
+log_salary_2 <- lm(log(salary) ~ years + gamesyr + bavg + hrunsyr
+                   + runsyr + fldperc + sbasesyr, data=mlb1)
+summary(log_salary_2)
+```
+
+The factors with the stars next to them are individually statistically significant.  
+
+### (iii)  
+
+```{r, message = FALSE, warning = FALSE}
+library(car)
+```
+```{r}
+# Result of joint hypotheses F-test
+linearHypothesis(log_salary_2, c("bavg = 0", "fldperc = 0", "sbasesyr = 0"))
+```
+
+Since the p-value is .56, we cannot reject the null hypothesis.  
+  
+# Question 5  
+
+## C3  
+
+### (i)  
+
+\[\begin{aligned} 
+\log(wage) &= \beta_0 + \beta_1 educ + \beta_2 exper + \beta_3 educ\cdot exper + u \\
+&= \beta_0 + (\beta_1 + \beta_3 exper)educ + \beta_2 exper + u
+\end{aligned}\]
+
+### (ii)  
+
+\[\begin{aligned}
+H_0 &: \; \beta_3 = 0 \\
+H_1 &: \; \beta_3 \ne 0
+\end{aligned}\]
+
+We use a two-sided test because we cannot rule out the possibility that experience has a negative effect on the returns to education. For example, the more experienced a person is, the less significant their educational background may be in determining wages, as many companies use education as a signal for abiilty, but experience already works as a credible signal of one's ability and may lessen the importance of educational background.  
+
+  
+### (iii)  
+
+```{r}
+data(wage2)
+```
+
+```{r}
+return_educ <- lm(log(wage) ~ educ + exper + educ * exper, data = wage2)
+res <- summary(return_educ)
+res
+```
+
+Because the two-sided p-value of the interaction is 0.0365, at a 95% confidence level, we reject $H_0$.  
+  
+\newpage 
+
+### (iv)  
+
+By following the hint we get the following equation:  
+
+\[\begin{aligned}
+&= \beta_0 + \theta_1 educ + \beta_2 exper+ \beta_3educ(exper - 10) + u
+\end{aligned}\]
+
+```{r}
+# create exper-10
+wage2$exper_minus_ten <- wage2$exper - 10
+return_educ_2 <- lm(log(wage) ~ educ + exper + educ * (exper_minus_ten), data = wage2)
+t_conf_intervals2 <- confint(return_educ_2)
+```
+```{r, results="asis"}
+# 95 % confidence intervals reported below coefficients, 
+# theta is coefficient on educ
+stargazer(return_educ_2, header = FALSE, type = "latex", 
+          ci.custom=list(t_conf_intervals2))
+```
+
+# Question 6  
+
+Two analysts at a bank want to determine an appropriate credit limit for new customers with a given credit score using existing data on credit limit decisions. The first analyst studies customers with ‘good’ credit, and the second studies customers with ‘excellent’ credit. For the purpose of this exercise, suppose these are the only two categories. Suppose ‘Good’ credit is scored between 0-400 and ‘Excellent’ credit 400-800. The analysts separately report the following fitted equations: 
+\[\begin{aligned}
+\text{'Good'}&: \hat y_i = 1000 + 0.5 score_i \\
+\text{'Excellent'}&: \hat y_i = 1500 + 0.7 score_i
+\end{aligned}\]
+  
+\begin{enumerate} 
+\item[a)] Explain how you could combine the information from both of these univariate regressions by running a single (multivariate) linear regression. Deduce from the information provided what the parameter estimates would be in your multivariate regression and provide a derivation based on the OLS minimization problem.
+\newline
+\newline
+\textit{Solution. }We could combine the the two regressions by introducing a dummy variable. Denote 
+\[d_i = \begin{cases}1\text{ if $score_i \geq 400$} \\ 0\text{ if $score_i < 400$} \end{cases}\]
+Then, the regression equation would be 
+\[ y_i = \beta_0 + \beta_1 score_i + d_i(\gamma + \delta score_i) + \epsilon_i\]
+Estimating the parameters via OLS goes as follows: 
+\[\begin{aligned}
+&\min_{\beta_0, \beta_1, \gamma, \delta} \Sigma_{i=1}^n(y_i-\beta_0 - \beta_1 score_i - d_i(\gamma + \delta score_i))^2 \\
+=& \min_{\beta_0, \beta_1, \gamma, \delta} \Sigma_{i:d_i = 0}(y_i-\beta_0 - \beta_1 score_i)^2 + \Sigma_{i:d_i = 1}(y_i-\beta_0 - \beta_1 score_i - \gamma - \delta score_i)^2 \\
+=& \min_{\beta_0, \beta_1, \gamma, \delta} \Sigma_{i:d_i = 0}(y_i-\beta_0 - \beta_1 score_i)^2 + \Sigma_{i:d_i = 1}(y_i-(\beta_0 + \gamma) - (\beta_1 + \delta) score_i )^2
+\end{aligned}\]
+Since the above functions under our assumptions are strictly convex, the minimizations of the first and second summation actually yield the same unique results as the 'Good' regression and 'Excellent' regression, respectively. Thus, the solution is 
+\[\begin{aligned}
+\hat\beta_0 &= 1000 \\
+\hat\gamma &= 500 \\
+\hat\beta_1 &= 0.5 \\
+\hat\delta &= 0.2
+\end{aligned}\]  
+
+\item[b)] What is the estimated size of the ‘jump’? (The ‘jump’ does not occur at 0). What is the estimated ‘kink’?
+\newline
+\newline
+\textit{Solution.} The 'jump' occurs at 400, since that is when the credit scores moves from "Good" to "Excellent". Therefore, the 'jump' is $\gamma + \delta * 400 = 500 + 0.2 * 400 = 580$. The 'kink' is the value of $\delta = 0.2$, which is the increase in the marginal impact of credit score on credit limit decisions.  
+
+\item[c)] Explain how to test the null hypothesis that the intercept and slope for the two credit categories are equal versus the alternative that they differ. What information would you need?
+\newline
+\newline
+\textit{Solution.} 
+\[\begin{aligned}
+H_0 &: \; \gamma = \delta = 0 \\
+H_1 &: \; \gamma \neq 0 \text{ or } \delta \neq 0 
+\end{aligned}\]
+The restricted and unrestricted regressions are as follows: 
+\[\begin{aligned}
+\text{Restricted: }\; &y_i \beta_0 + \beta_1 score_i + \epsilon_i\\
+\text{Unrestricted: }\; &y_i = \beta_0 + \beta_1 score_i + d_i(\gamma + \delta score_i) + \epsilon_i
+\end{aligned}\]
+The restricted regression gives us $SSR_R$, the unrestricted regression gives us $SSR_U$. The number of restrictions is 2, and we are estimating 4 parameters.  From here we can compute the $F$-stat, which is 
+\[F = \frac{(SSR_R - SSR_U) / 2}{SSR_U/(n - 4 - 1)} = \frac{(SSR_R - SSR_U) / 2}{SSR_U/(n - 5)}\]
+To compute this $F$-stat, we would need to run the above regressions and obtain information of $n, SSR_R, SSR_U$. We would reject the null hypothesis if $F > F_{2, n-5, 1-\alpha}$. 
+
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+

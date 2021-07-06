@@ -1,0 +1,905 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Problem Set 3},
+  pdfauthor={Jake Underland, Groupmates: Ian Bamford, Matthew Chen},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{amsmath}
+
+\title{Problem Set 3}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{ECON 21020 Spring, 2021}
+\author{Jake Underland, Groupmates: Ian Bamford, Matthew Chen}
+\date{2021-04-22}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\hypertarget{question-1}{%
+\section{Question 1}\label{question-1}}
+
+\hypertarget{section}{%
+\subsection{7.}\label{section}}
+
+\hypertarget{i}{%
+\subsubsection{(i)}\label{i}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{w_b <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\FloatTok{8.3}\NormalTok{, }\FloatTok{9.4}\NormalTok{, }\FloatTok{9.0}\NormalTok{, }\FloatTok{10.5}\NormalTok{, }\FloatTok{11.4}\NormalTok{, }\FloatTok{8.75}\NormalTok{, }\FloatTok{10.0}\NormalTok{, }\FloatTok{9.5}\NormalTok{, }\FloatTok{10.8}\NormalTok{, }\FloatTok{12.55}\NormalTok{, }\FloatTok{12.00}\NormalTok{, }\FloatTok{8.65}\NormalTok{, }\FloatTok{7.75}\NormalTok{, }\FloatTok{11.25}\NormalTok{, }\FloatTok{12.65}\NormalTok{) }
+\NormalTok{w_a <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\FloatTok{9.25}\NormalTok{, }\FloatTok{9.0}\NormalTok{, }\FloatTok{9.25}\NormalTok{, }\FloatTok{10.0}\NormalTok{, }\FloatTok{12.0}\NormalTok{, }\FloatTok{9.5}\NormalTok{, }\FloatTok{10.25}\NormalTok{, }\FloatTok{9.5}\NormalTok{, }\FloatTok{11.5}\NormalTok{, }\FloatTok{13.1}\NormalTok{, }\FloatTok{11.5}\NormalTok{, }\FloatTok{9.0}\NormalTok{, }\FloatTok{7.75}\NormalTok{, }\FloatTok{11.5}\NormalTok{, }\FloatTok{13.0}\NormalTok{) }
+\NormalTok{d <-}\StringTok{ }\NormalTok{w_a }\OperatorTok{-}\StringTok{ }\NormalTok{w_b}
+\NormalTok{df <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(w_b, w_a, d)}
+\KeywordTok{kable}\NormalTok{(df, }\StringTok{"simple"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}rrr@{}}
+\toprule
+w\_b & w\_a & d\tabularnewline
+\midrule
+\endhead
+8.30 & 9.25 & 0.95\tabularnewline
+9.40 & 9.00 & -0.40\tabularnewline
+9.00 & 9.25 & 0.25\tabularnewline
+10.50 & 10.00 & -0.50\tabularnewline
+11.40 & 12.00 & 0.60\tabularnewline
+8.75 & 9.50 & 0.75\tabularnewline
+10.00 & 10.25 & 0.25\tabularnewline
+9.50 & 9.50 & 0.00\tabularnewline
+10.80 & 11.50 & 0.70\tabularnewline
+12.55 & 13.10 & 0.55\tabularnewline
+12.00 & 11.50 & -0.50\tabularnewline
+8.65 & 9.00 & 0.35\tabularnewline
+7.75 & 7.75 & 0.00\tabularnewline
+11.25 & 11.50 & 0.25\tabularnewline
+12.65 & 13.00 & 0.35\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test <-}\StringTok{ }\KeywordTok{t.test}\NormalTok{(d, }\DataTypeTok{conf.level =} \FloatTok{0.95}\NormalTok{)}
+\NormalTok{test}\OperatorTok{$}\NormalTok{conf.int}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.009684686  0.489684686
+## attr(,"conf.level")
+## [1] 0.95
+\end{verbatim}
+
+\hypertarget{ii}{%
+\subsubsection{(ii)}\label{ii}}
+
+\[\begin{aligned}
+H_0: \; \; \mu &= 0 \\
+H_1: \; \; \mu &> 0
+\end{aligned}\]
+
+\hypertarget{iii}{%
+\subsubsection{(iii)}\label{iii}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x_bar <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(d)}
+\NormalTok{s <-}\StringTok{ }\KeywordTok{sd}\NormalTok{(d)}
+\NormalTok{n <-}\StringTok{ }\KeywordTok{length}\NormalTok{(d)}
+\NormalTok{test_stat <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(n) }\OperatorTok{*}\StringTok{ }\NormalTok{(x_bar }\OperatorTok{-}\StringTok{ }\DecValTok{0}\NormalTok{) }\OperatorTok{/}\StringTok{ }\NormalTok{s }
+\NormalTok{test_stat }\OperatorTok{>}\StringTok{ }\KeywordTok{qt}\NormalTok{(}\FloatTok{0.95}\NormalTok{, }\DataTypeTok{df =} \DecValTok{14}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test_stat }\OperatorTok{>}\StringTok{ }\KeywordTok{qt}\NormalTok{(}\FloatTok{0.99}\NormalTok{, }\DataTypeTok{df =} \DecValTok{14}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cat}\NormalTok{(}\StringTok{"The test statistic is "}\NormalTok{, test_stat, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }
+    \StringTok{"At 5%, this is greater than the 0.95 quantile of the t distribution"}\NormalTok{, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }\StringTok{"at df = 14: "}\NormalTok{, }
+    \KeywordTok{qt}\NormalTok{(}\FloatTok{0.95}\NormalTok{, }\DataTypeTok{df =} \DecValTok{14}\NormalTok{), }\StringTok{" and H_0 is rejected."}\NormalTok{, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }
+    \StringTok{"At 1%, this is less than the 0.99 quantile of the t distribution"}\NormalTok{, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }\StringTok{"at df = 14: "}\NormalTok{, }
+    \KeywordTok{qt}\NormalTok{(}\FloatTok{0.99}\NormalTok{, }\DataTypeTok{df =} \DecValTok{14}\NormalTok{), }\StringTok{" and H_1 is rejected."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The test statistic is  2.061595 
+##  At 5%, this is greater than the 0.95 quantile of the t distribution 
+##  at df = 14:  1.76131  and H_0 is rejected. 
+##  At 1%, this is less than the 0.99 quantile of the t distribution 
+##  at df = 14:  2.624494  and H_1 is rejected.
+\end{verbatim}
+
+\hypertarget{iv}{%
+\subsubsection{(iv)}\label{iv}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test <-}\StringTok{ }\KeywordTok{t.test}\NormalTok{(d, }\DataTypeTok{mu =} \DecValTok{0}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"greater"}\NormalTok{)}
+\NormalTok{test}\OperatorTok{$}\NormalTok{p.value}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.02916138
+\end{verbatim}
+
+\hypertarget{section-1}{%
+\subsection{9.}\label{section-1}}
+
+\hypertarget{i-1}{%
+\subsubsection{(i)}\label{i-1}}
+
+\(X\) follows a Binomial distribution of probability \(p = 0.65\),
+assuming that is the true value of \(p\). Thus, the expected value of
+\(X\) is \(np\). \[E(X) = np = 200 \cdot 0.65 = 130\]
+
+\hypertarget{ii-1}{%
+\subsubsection{(ii)}\label{ii-1}}
+
+Let \(x_i\) denote a Bernoulli trial with probability \(p = 0.65\). The
+variance of \(X\) is: \[\begin{aligned} 
+Var(X) &= Var(\Sigma_{i=1}^{n} x_i) \\
+&= \Sigma_{i=1}^{n} Var(x_i) \\
+&= np(1-p) \\
+&= 200 \cdot 0.65 \cdot 0.35 \\
+&= 45.5
+\end{aligned}\] Thus, standard deviation is \(\sqrt{45.5} \approx 6.75\)
+
+\hypertarget{iii-1}{%
+\subsubsection{(iii)}\label{iii-1}}
+
+We already showed in Problem Set 2 that when \(x_1, \dots, x_n\) are iid
+with \(x_i \sim Bernoulli(p)\), then
+\(X_n = \Sigma_{i=1} ^ n x_i \stackrel{a}{\sim} \mathcal{N}(np, np(1-p))\).
+Thus, the probability that you would find 115 or fewer yes votes from a
+random sample of 200 is:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{pnorm}\NormalTok{(}\DecValTok{115}\NormalTok{, }\DataTypeTok{mean =} \DecValTok{130}\NormalTok{, }\DataTypeTok{sd =} \FloatTok{6.75}\NormalTok{, }\DataTypeTok{lower.tail=}\OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.01313415
+\end{verbatim}
+
+\hypertarget{iv-1}{%
+\subsubsection{(iv)}\label{iv-1}}
+
+If what the dictator claims is true, that 65\% of the population
+supported them, then the probability that we would see only 115 yes
+votes from a random sample of 200 votes is 1.3\%. This indicates that
+the dictator is likely not being transparent about the true rate of
+support they receive from the public.
+
+\hypertarget{question-2}{%
+\section{Question 2}\label{question-2}}
+
+\begin{enumerate}
+\item[a)] Show that in the linear model $y_i = \beta_0 + \beta_1 x_i + u_i$ where the parameters $(\beta_0, \beta_1)$ are estimated using ordinary least squares: 
+\[R^2 = \beta_1^2 \frac{TSS_X}{TSS_Y} = (\hat{\rho}_{XY})^2,\]
+where 
+\[\begin{aligned} 
+\hat{\rho}_{XY} &= \frac{\Sigma_{i=1} ^ n (X_i - \bar{X}_n)(Y_i - \bar{Y}_n)}{\sqrt{TSS_X \times TSS_Y}} \\
+TSS_X &= \Sigma_{i=1} ^ n (X_i - \bar{X}_n)^2 \\
+TSS_Y &= \Sigma_{i=1} ^ n (Y_i - \bar{Y}_n)^2 
+\end{aligned}\]
+$\rho_{XY}$ is the sample correlation coefficient. Interpret your result.  
+  
+\textit{Solution.}  
+
+First, we know that 
+\[\begin{aligned}
+\hat{\beta_0} &= \bar{Y_n} - \hat{\beta}_1 \bar{X}_n \\
+\hat{\beta}_1 &= \frac{\Sigma(Y_i - \bar{Y}_n)(X_i - \bar{X}_n)}{\Sigma (X_i - \bar{X}_n)^2} \\
+\hat{Y}_n &= \hat{\beta_0} + \hat{\beta}_1X_i
+\end{aligned}\]
+Using these expressions, we derive the following:
+\[\begin{aligned}
+R^2 &= \frac{ESS}{TSS_Y} \\
+&= \frac{\Sigma (\hat{Y_i} - \bar{Y}_n)^2}{\Sigma(Y_i - \bar{Y}_n)^2} \\
+&= \frac{\Sigma(\hat{\beta_0} + \hat{\beta}_1X_i - \bar{Y}_n)^2}{\Sigma(Y_i - \bar{Y}_n)^2} \\
+&= \frac{\Sigma(\bar{Y_n} - \hat{\beta}_1 \bar{X}_n + \hat{\beta}_1X_i - \bar{Y}_n)^2}{\Sigma(Y_i - \bar{Y}_n)^2} \\
+&= \frac{\Sigma [\hat{\beta}_1(   X_i - \bar{X}_n )]^2}{\Sigma(Y_i - \bar{Y}_n)^2} \\
+&= \hat{\beta}_1 ^2 \frac{\Sigma_{i=1} ^ n (X_i - \bar{X}_n)^2 }{\Sigma_{i=1} ^ n (Y_i - \bar{Y}_n)^2} \\
+&=  \hat{\beta_1}^2 \frac{TSS_X}{TSS_Y} 
+\end{aligned}\] 
+Now, by substituting our expression for $\hat{\beta_1}$, we get 
+\[\begin{aligned}
+\hat{\beta_1}^2 \frac{TSS_X}{TSS_Y} &= \frac{[\Sigma(Y_i - \bar{Y}_n)(X_i - \bar{X}_n)]^2}{[\Sigma (X_i - \bar{X}_n)^2]^2} \cdot  \frac{TSS_X}{TSS_Y} \\
+&= \frac{[\Sigma(Y_i - \bar{Y}_n)(X_i - \bar{X}_n)]^2}{TSS_X TSS_Y} \\
+&= (\hat{\rho}_{XY})^2
+\end{aligned}\] 
+
+Since $R^2$ tells us the fraction of variability in $Y$ explained by $X$, it is natural to assume that the higher the correlation of the two variables, the higher the explanatory value of $X$ and thus the higher the value of $R^2$. If the two are perfectly correlated, then $Y$ is a linear function of $X$, and so naturally there would exist a linear function of $X$ that perfectly explains $Y$, yielding an $R^2$ score of $1$.  
+
+\item[b)] Suppose you run the ’reverse’ regression $x_i = \gamma_0 + \gamma_1y_i + \epsilon_i$ and obtain the OLS estimates $\hat{\gamma_0}, \: \hat{\gamma_1}.$ When is it true that $\hat{\gamma_1} = 1/\hat{\beta_1}$?  
+  
+\textit{Solution.}  
+We can rearrange $\hat{\beta_1}$ such that: 
+\[\hat{\beta_1} = \frac{\Sigma(Y_i - \bar{Y}_n)(X_i - \bar{X}_n)}{\Sigma (X_i - \bar{X}_n)^2} = \hat{\rho}_{XY}\sqrt{\frac{\hat{Var}(Y)}{\hat{Var}(X)}}\]
+Then, if we regress $x_i$ on $y_i$ as $x_i = \gamma_0 + \gamma_1y_i + \epsilon_i$, we similarly get 
+\[\hat{\gamma_1} = \frac{\Sigma(Y_i - \bar{Y}_n)(X_i - \bar{X}_n)}{\Sigma (Y_i - \bar{Y}_n)^2} = \hat{\rho}_{XY}\sqrt{\frac{\hat{Var}(X)}{\hat{Var}(Y)}}\]
+Thus, 
+\[\begin{aligned} 
+&\hat{\gamma_1} = \hat{\rho}_{XY}\sqrt{\frac{\hat{Var}(X)}{\hat{Var}(Y)}} = \frac{1}{\hat{\rho}_{XY}}\sqrt{\frac{\hat{Var}(X)}{\hat{Var}(Y)}} = \frac{1}{\hat{\beta_1}} \\
+\implies& \hat{\rho}_{XY} = \frac{1}{\hat{\rho}_{XY}} \\
+\implies& \hat{\rho}_{XY} = \pm 1
+\end{aligned}\]
+
+\end{enumerate}
+
+\hypertarget{question-3}{%
+\section{Question 3}\label{question-3}}
+
+\hypertarget{section-2}{%
+\subsection{2.3}\label{section-2}}
+
+\hypertarget{i-2}{%
+\subsubsection{(i)}\label{i-2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# replicating dataframe }
+\NormalTok{student <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{8}\NormalTok{)}
+\NormalTok{gpa <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\FloatTok{2.8}\NormalTok{, }\FloatTok{3.4}\NormalTok{, }\FloatTok{3.0}\NormalTok{, }\FloatTok{3.5}\NormalTok{, }\FloatTok{3.6}\NormalTok{, }\FloatTok{3.0}\NormalTok{, }\FloatTok{2.7}\NormalTok{, }\FloatTok{3.7}\NormalTok{) }
+\NormalTok{act <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{21}\NormalTok{, }\DecValTok{24}\NormalTok{, }\DecValTok{26}\NormalTok{, }\DecValTok{27}\NormalTok{, }\DecValTok{29}\NormalTok{, }\DecValTok{25}\NormalTok{, }\DecValTok{25}\NormalTok{, }\DecValTok{30}\NormalTok{)}
+\NormalTok{df2 <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(student, gpa, act)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{kable}\NormalTok{(df2, }\StringTok{"simple"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}rrr@{}}
+\toprule
+student & gpa & act\tabularnewline
+\midrule
+\endhead
+1 & 2.8 & 21\tabularnewline
+2 & 3.4 & 24\tabularnewline
+3 & 3.0 & 26\tabularnewline
+4 & 3.5 & 27\tabularnewline
+5 & 3.6 & 29\tabularnewline
+6 & 3.0 & 25\tabularnewline
+7 & 2.7 & 25\tabularnewline
+8 & 3.7 & 30\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# computing OLS estimate of coefficients}
+\NormalTok{model <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(gpa }\OperatorTok{~}\StringTok{ }\NormalTok{act, }\DataTypeTok{data =}\NormalTok{ df2)}
+\NormalTok{model}\OperatorTok{$}\NormalTok{coefficients}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## (Intercept)         act 
+##   0.5681319   0.1021978
+\end{verbatim}
+
+~~~~Thus, the relationship can be expressed as
+\[\widehat{GPA} = .57 + .10 ACT\] ~~~~The above equation shows that
+there is a small but positive correlation between \(GPA\) and \(ACT\)
+scores. However, the direction of the causation cannot be established
+just by looking at a simple linear regression. The intercept shows the
+expected value of \(GPA\) when a student's \(ACT\) score is \(0\).
+However, in this dataset, it is unrealistic to assume that a student's
+\(ACT\) score can be \(0\). We can obtain a much more useful intercept
+by centering the \(ACT\) scores at their mean so that the intercept
+reflects the value of \(GPA\) for an average student.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# centering ACT scores and computing coefficients }
+\NormalTok{df2_centered <-}\StringTok{ }\NormalTok{df2 }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{act =}\NormalTok{ act }\OperatorTok{-}\StringTok{ }\KeywordTok{mean}\NormalTok{(act))}
+\NormalTok{model_centered <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(gpa }\OperatorTok{~}\StringTok{ }\NormalTok{act, }\DataTypeTok{data =}\NormalTok{ df2_centered)}
+\NormalTok{model_centered}\OperatorTok{$}\NormalTok{coefficients}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## (Intercept)         act 
+##   3.2125000   0.1021978
+\end{verbatim}
+
+~~~~The above shows that when \(ACT\) takes its mean value, \(GPA\) is
+expected to be \(3.2\).\\
+\hspace*{0.333em}\hspace*{0.333em}\hspace*{0.333em}\hspace*{0.333em}When
+\(ACT\) score is increased by \(5\) points, \(GPA\) is expected to
+increase by the coefficient of \(ACT\) in the estimated model times
+\(5\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FloatTok{0.1021978} \OperatorTok{*}\StringTok{ }\DecValTok{5} 
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.510989
+\end{verbatim}
+
+\hypertarget{ii-2}{%
+\subsubsection{(ii)}\label{ii-2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# creating column with fitted values and residuals }
+\NormalTok{df2 <-}\StringTok{ }\NormalTok{df2 }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{fitted =} \FloatTok{0.5681319} \OperatorTok{+}\StringTok{ }\FloatTok{0.1021978} \OperatorTok{*}\StringTok{ }\NormalTok{act,}
+    \DataTypeTok{residuals =}\NormalTok{ gpa }\OperatorTok{-}\StringTok{ }\NormalTok{fitted)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{kable}\NormalTok{(df2, }\StringTok{"simple"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}rrrrr@{}}
+\toprule
+student & gpa & act & fitted & residuals\tabularnewline
+\midrule
+\endhead
+1 & 2.8 & 21 & 2.714286 & 0.0857143\tabularnewline
+2 & 3.4 & 24 & 3.020879 & 0.3791209\tabularnewline
+3 & 3.0 & 26 & 3.225275 & -0.2252747\tabularnewline
+4 & 3.5 & 27 & 3.327472 & 0.1725275\tabularnewline
+5 & 3.6 & 29 & 3.531868 & 0.0681319\tabularnewline
+6 & 3.0 & 25 & 3.123077 & -0.1230769\tabularnewline
+7 & 2.7 & 25 & 3.123077 & -0.4230769\tabularnewline
+8 & 3.7 & 30 & 3.634066 & 0.0659341\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# sum of residuals}
+\KeywordTok{sum}\NormalTok{(df2}\OperatorTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2e-07
+\end{verbatim}
+
+\hypertarget{iii-2}{%
+\subsubsection{(iii)}\label{iii-2}}
+
+By substituting \(ACT = 20\) into the equation derived in (i), we have
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gpa_}\DecValTok{20}\NormalTok{ =}\StringTok{ }\FloatTok{.57} \OperatorTok{+}\StringTok{ }\FloatTok{.10} \OperatorTok{*}\StringTok{ }\DecValTok{20}
+\KeywordTok{cat}\NormalTok{(}\StringTok{"Predicted value of GPA when ACT = 20 is:"}\NormalTok{, gpa_}\DecValTok{20}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Predicted value of GPA when ACT = 20 is: 2.57
+\end{verbatim}
+
+\newpage
+
+\hypertarget{iv-2}{%
+\subsubsection{(iv)}\label{iv-2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# R2 of the OLS model}
+\KeywordTok{stargazer}\NormalTok{(model, }\DataTypeTok{type =} \StringTok{"latex"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{1}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-2} 
+\\[-1.8ex] & gpa \\ 
+\hline \\[-1.8ex] 
+ act & 0.102$^{**}$ \\ 
+  & (0.036) \\ 
+  & \\ 
+ Constant & 0.568 \\ 
+  & (0.928) \\ 
+  & \\ 
+\hline \\[-1.8ex] 
+Observations & 8 \\ 
+R$^{2}$ & 0.577 \\ 
+Adjusted R$^{2}$ & 0.507 \\ 
+Residual Std. Error & 0.269 (df = 6) \\ 
+F Statistic & 8.199$^{**}$ (df = 1; 6) \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{1}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table}
+
+As we see above, the \(R^2\) value of the regression we ran is
+\(0.577\). This indicates that the variation in \(GPA\) explained by
+\(ACT\) is around \(57.7\%\).
+
+\hypertarget{c2}{%
+\subsection{C2}\label{c2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{data}\NormalTok{(}\StringTok{"ceosal2"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{i-3}{%
+\subsubsection{(i)}\label{i-3}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cat}\NormalTok{(}\StringTok{" Average salary is:"}\NormalTok{, }\KeywordTok{mean}\NormalTok{(ceosal2}\OperatorTok{$}\NormalTok{salary), }\StringTok{"thousand dollars }\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }
+    \StringTok{"Average tenure is:"}\NormalTok{, }\KeywordTok{mean}\NormalTok{(ceosal2}\OperatorTok{$}\NormalTok{ceoten), }\StringTok{"years"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  Average salary is: 865.8644 thousand dollars 
+##  Average tenure is: 7.954802 years
+\end{verbatim}
+
+\hypertarget{ii-3}{%
+\subsubsection{(ii)}\label{ii-3}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# filtering data to first year CEOs }
+\NormalTok{ceo_first <-}\StringTok{ }\NormalTok{ceosal2 }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(ceoten }\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{)}
+\KeywordTok{cat}\NormalTok{(}\StringTok{"number of first year CEOs:"}\NormalTok{, }\KeywordTok{nrow}\NormalTok{(ceo_first))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## number of first year CEOs: 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Longest tenure as CEO }
+\KeywordTok{max}\NormalTok{(ceosal2}\OperatorTok{$}\NormalTok{ceoten)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 37
+\end{verbatim}
+
+\hypertarget{iii-3}{%
+\subsubsection{(iii)}\label{iii-3}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# estimating the OLS regression }
+\NormalTok{model2 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(}\KeywordTok{log}\NormalTok{(salary) }\OperatorTok{~}\StringTok{ }\NormalTok{ceoten, }\DataTypeTok{data =}\NormalTok{ ceosal2)}
+\KeywordTok{stargazer}\NormalTok{(model2, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{type =} \StringTok{"latex"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{1}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-2} 
+\\[-1.8ex] & log(salary) \\ 
+\hline \\[-1.8ex] 
+ ceoten & 0.010 \\ 
+  & (0.006) \\ 
+  & \\ 
+ Constant & 6.505$^{***}$ \\ 
+  & (0.068) \\ 
+  & \\ 
+\hline \\[-1.8ex] 
+Observations & 177 \\ 
+R$^{2}$ & 0.013 \\ 
+Adjusted R$^{2}$ & 0.008 \\ 
+Residual Std. Error & 0.604 (df = 175) \\ 
+F Statistic & 2.334 (df = 1; 175) \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{1}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table}
+
+The approximate predicted percentage increase in salary given one more
+year as a CEO is \(1\%\).
+
+\hypertarget{c3}{%
+\subsection{C3}\label{c3}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# loading data}
+\KeywordTok{data}\NormalTok{(sleep75)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{i-4}{%
+\subsubsection{(i)}\label{i-4}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Estimate model }
+\NormalTok{sleepmodel <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(sleep }\OperatorTok{~}\StringTok{ }\NormalTok{totwrk, }\DataTypeTok{data=}\NormalTok{sleep75)}
+\KeywordTok{stargazer}\NormalTok{(sleepmodel, }\DataTypeTok{type =} \StringTok{"latex"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{1}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-2} 
+\\[-1.8ex] & sleep \\ 
+\hline \\[-1.8ex] 
+ totwrk & $-$0.151$^{***}$ \\ 
+  & (0.017) \\ 
+  & \\ 
+ Constant & 3,586.377$^{***}$ \\ 
+  & (38.912) \\ 
+  & \\ 
+\hline \\[-1.8ex] 
+Observations & 706 \\ 
+R$^{2}$ & 0.103 \\ 
+Adjusted R$^{2}$ & 0.102 \\ 
+Residual Std. Error & 421.136 (df = 704) \\ 
+F Statistic & 81.090$^{***}$ (df = 1; 704) \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{1}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Results found in Table 6}
+\end{Highlighting}
+\end{Shaded}
+
+\[ sleep = 3,586.4 - .151 \:totwrk\] Where observations \(= 706\),
+\(R^2 = 0.103\).\\
+The intercept in this equation shows how much sleep in a week a person
+would get if they worked 0 minutes that week.
+
+\hypertarget{ii-4}{%
+\subsubsection{(ii)}\label{ii-4}}
+
+Since 2 hours is 120 minutes, the estimated effect on \(sleep\) is
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{120} \OperatorTok{*}\StringTok{ }\FloatTok{-0.151}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -18.12
+\end{verbatim}
+
+so 18 minutes less sleep that week. This is a pretty sizable drop. If we
+consider 2 hours of overtime per day, which is not atypical, then that
+would result in almost 2 hours less sleep throughout the week, 18
+minutes per night, which is large if you're a person who highly values
+sleep, like me.
+
+\hypertarget{question-4}{%
+\section{Question 4}\label{question-4}}
+
+Suppose you have an iid sample of observations \(\{y_i, x_i\}^n_{i=1}\),
+where \(y\) and \(x\) are random variables.
+
+\begin{enumerate} 
+\item[a)] You wish to find the best predictor of $y$ given $x$ using only the functions $\{f : f (x) = bx \text{ for some } b \in \mathbb{R}\}$. You write the model 
+\[y_i = \beta x_i + u_i\] 
+where $\beta$ is the optimal choice of $b$ in terms of mean squared prediction error:
+\[MSE(b) = E[(y-bx)^2].\]
+State the minimization problem to be solved and show that
+\[\beta = \frac{E(xy)}{E(x^2)}.\]
+Argue that $E (xu) = 0$ as a consequence of selecting $\beta$ in this manner. What is the ordinary least squares estimator of $\beta$?  
+  
+\textit{Solution.}  
+The minimization problem: 
+\[\min _ b E[(y-bx)^2]\]
+FOCs: 
+\[\begin{aligned}
+\{\beta\}: \; \; &\frac{d}{d\beta} E[(y-\beta x)^2] = 0\\
+\implies& -2E[x(y-\beta x)] = 0  \\
+\implies& -2 E[xy] + 2 \beta E[x^2] = 0 \\
+\implies& \beta = \frac{E[xy]}{E[x^2]}
+\end{aligned}\]
+Since $u \equiv y - \beta x$, $y = \beta x + u$. Plug this into the FOC to yield 
+\[\begin{aligned} 
+&-2 E[x(\beta x + u) ] + 2 \beta E[x^2] = 0\\ 
+\implies& -2 E[\beta x^2 + ux ] + 2 \beta E[x^2] = 0 \\
+\implies& -2\beta E[x^2] + E[ux ] + 2 \beta E[x^2] = 0 \\
+\implies& E[ux ]  = 0 \\
+\end{aligned}\]
+The OLS estimator of $\beta$ is the solution to the analogous problem:
+\[\min _ b \frac{1}{n}\Sigma(y_i-bx_i)^2\]
+FOCs: 
+\[\begin{aligned}
+\{\hat{\beta}\}: \; \; &\frac{d}{d\hat{\beta}} \frac{1}{n}\Sigma(y_i-\hat{\beta} x_i)^2 = 0\\
+\implies& -2\frac{1}{n}\Sigma x_i(y_i-\hat{\beta} x_i) = 0  \\
+\implies& -2 \frac{1}{n}\Sigma [x_iy_i] + 2 \hat{\beta} \frac{1}{n}\Sigma [x_i^2] = 0 \\
+\implies& \hat{\beta}= \frac{\Sigma [x_iy_i]}{\Sigma [x_i^2]}
+\end{aligned}\]
+
+\item[b)] Now suppose you are willing to assume that $E(u|x) = 0$.  
+\begin{enumerate} 
+\item[i.] Is $E(u|x) = 0$ stronger or weaker than assuming$E(ux) = 0$? Is $\beta x$ still the best predictor of $y$ in the class of functions 
+\[F^* = \{f : f (x) = bx \text{ for some } b \in \mathbb{R}\}\]
+under this new assumption?  
+  
+\textit{Solution.}  
+
+It is stronger. Let us assume $E(u|x) = 0$. Then, from the law of iterated expectations, 
+\[E(ux) = E[E[ux|x]] = E[xE[u|x]] = E[x\cdot 0] = 0\]
+Thus, $E(u|x) = 0 \implies E(ux) = 0$.  
+Now, from this assumption we know that 
+$$E(y|x) = E(\beta x + u|x) = \beta x + E[u|x] = \beta x$$
+Thus, the problem 
+\[\min _ \beta E[(y-E(y|x))^2] = \min _ \beta E[(y- \beta x)^2]\]
+Since we know $E(y|x)$ is the best predictor of $y$ given $x$, $\beta x$ is still the best predictor of $y$.  
+  
+\item[ii.] Show that $\beta$ can be represented in the following ways:
+\[\beta = \frac{E(xy)}{E(x^2)} \text{ and } \frac{E(y)}{E(x)}\]  
+  
+\textit{Solution.} Note that $u = y - \beta x$. From the iterated law of expectation, 
+$$E[u] = E[E[u|x]] = E[0] = 0$$
+Then, 
+\[\begin{aligned} 
+E[y - \beta x] &= 0 \\
+\implies E[y] - \beta E[x] &= 0 \\
+\implies \beta &= \frac{E(y)}{E(x)}
+\end{aligned}\]
+
+Furthermore, we also know from i. that $E[ux] = 0$. Thus, 
+\[\begin{aligned} 
+E[x(y - \beta x)] &= 0 \\
+\implies E[xy] - \beta E[x^2] &= 0 \\
+\implies \beta &= \frac{E(xy)}{E(x^2)}
+\end{aligned}\]
+
+\item[iii.] Use your answer to part b)ii and the sample analogue principle to construct two estimators of $\beta$. Are they unbiased? Justify your answer.  
+  
+\textit{Solution.}  
+  
+Using the sample analogue principle, 
+\[\begin{aligned} 
+\hat{\beta} &= \frac{\frac{1}{n}\Sigma x_iy_i}{\frac{1}{n}\Sigma x_i^2} = \frac{\Sigma x_iy_i}{\Sigma x_i^2}\\
+E[\hat{\beta}|x_1, \cdots, x_n] &= E[\frac{\Sigma x_iy_i}{\Sigma x_i^2}|x_1, \cdots, x_n]\\ 
+&= \frac{\Sigma x_i E[y_i|x_1, \cdots, x_n]}{\Sigma x_i^2}\\
+&= \frac{\Sigma x_i E[\beta x_i + u_i|x_1, \cdots, x_n]}{\Sigma x_i^2} \\
+&= \frac{\beta \Sigma x_i ^2  + \Sigma x_iE[u_i|x_1, \cdots, x_n]}{\Sigma x_i^2} \\
+&= \frac{\beta \Sigma x_i ^2}{\Sigma x_i^2}\\ 
+&= \beta  \\
+&\implies E[\hat{\beta}] = E[E[\hat{\beta} | x_1, \cdots, x_n]] = \beta
+\end{aligned}\]
+Thus, this first estimator is unbiased. 
+\[\begin{aligned} 
+\hat{\beta} &= \frac{\frac{1}{n}\Sigma y_i}{\frac{1}{n}\Sigma x_i} =  \frac{\Sigma y_i}{\Sigma x_i} \\
+E[\hat{\beta}|x_1, \cdots, x_n] &= E[\frac{\Sigma y_i}{\Sigma x_i}|x_1, \cdots, x_n]\\ 
+&= \frac{\Sigma E[\beta x_i + u_i|x_1, \cdots, x_n]}{\Sigma x_i}\\
+&= \frac{\beta \Sigma x_i  + \Sigma E[u_i|x_1, \cdots, x_n]}{\Sigma x_i} \\
+&= \frac{\beta \Sigma x_i}{\Sigma x_i}\\ 
+&= \beta \\
+&\implies E[\hat{\beta}] = E[E[\hat{\beta} | x_1, \cdots, x_n]] = \beta
+\end{aligned}\]
+Thus, the second estimator is also unbiased. 
+
+\end{enumerate}
+\end{enumerate}
+
+\hypertarget{question-5}{%
+\section{Question 5}\label{question-5}}
+
+Suppose you have a sample of observations \(\{y_i,x_i\}^n_{i=1}\), where
+\(y\) and \(x\) are random variables. You write the model
+\[y_i = \beta_0 + \beta_1 x_i + u_i\] where \(E (u) = E (xu) = 0\)
+(i.e.~\(\beta_0 + \beta_1 x\) is the best linear predictor of \(y\)
+given \(x\) under square loss). Suppose you know that \(\beta_0 = 2\).
+Derive the ordinary least squares estimator of \(\beta_1\).
+
+\textit{Solution.}
+
+The minimization problem to be solved is
+\[\min _ {b_1} \Sigma(y_i-2-b_1 x_i)^2\] FOCs: \[\begin{aligned}
+\{\hat{\beta_1}\}: \; \; &\frac{d}{d\hat{\beta_1}} \Sigma(y_i-2-\hat{\beta_1} x_i)^2 = 0\\
+\implies& -2\Sigma x_i(y_i-2-\hat{\beta_1} x_i) = 0  \\
+\implies& -2 \Sigma [x_iy_i] + 4 \Sigma x_i+ 2 \hat{\beta_1} \Sigma [x_i^2] = 0 \\
+\implies& \hat{\beta_1} = \frac{\Sigma x_i(y_i-2)}{\Sigma x_i^2}
+\end{aligned}\]
+
+\hypertarget{question-6}{%
+\section{Question 6}\label{question-6}}
+
+\begin{enumerate} 
+\item[a)] Derive the ordinary least squares estimators of $\beta_0$ and $\beta_1$ in the model
+\[y_i = \beta_0 + \beta_1 x_i + u_i.\]
+  
+\textit{Solution.}  
+
+The minimization problem is:
+\[\min _ {b_0, b_1} \frac{1}{n}\Sigma(y_i-b_0-b_1 x_i)^2\]
+FOCs: 
+\[\begin{aligned}
+\{\hat{\beta_0}\}: \; \; &\frac{d}{d\hat{\beta_0}} \Sigma(y_i-\hat{\beta_0}-\hat{\beta_1} x_i)^2 = 0\\
+\implies& -2\cdot \frac{1}{n}\Sigma y_i +2\hat{\beta_0} + 2 \hat{\beta_1} \frac{1}{n}\Sigma x_i = 0  \\
+\implies& \hat{\beta_0} = \bar{y}_n - \hat{\beta}_1 \bar{x}_n \dots \text{ where } \bar{y}_n = \frac{1}{n}\Sigma y_i,\: \bar{x}_n=\frac{1}{n}\Sigma x_i \\
+\\
+\{\hat{\beta_1}\}: \; \; &\frac{d}{d\hat{\beta_1}} \Sigma(y_i-\hat{\beta_0}-\hat{\beta_1} x_i)^2 = 0\\
+\implies& -2\cdot\frac{1}{n}\Sigma x_i(y_i-\hat{\beta_0}-\hat{\beta_1} x_i) = 0  \\
+\implies& -2 \frac{1}{n}\Sigma x_iy_i + 2 \hat{\beta_0}\frac{1}{n} \Sigma x_i+ 2 \hat{\beta_1} \frac{1}{n}\Sigma x_i^2 = 0 \\
+\implies& -\frac{1}{n}\Sigma x_iy_i +  \hat{\beta_0}\bar{x}_n+  \hat{\beta_1} \frac{1}{n}\Sigma x_i^2 = 0 \\
+\implies& -\frac{1}{n}\Sigma x_iy_i +  \bar{x}_n\bar{y}_n - \hat{\beta_1} \bar{x}_n ^2+  \hat{\beta_1} \frac{1}{n}\Sigma x_i^2 = 0 \\
+\implies& \hat{\beta}_1 = \frac{\frac{1}{n}\Sigma x_iy_i - \bar{x}_n\bar{y}_n}{\frac{1}{n}\Sigma x_i^2 - \bar{x}_n ^2}  = \frac{\Sigma x_i(y_i-\bar{y}_n)}{\Sigma x_i(x_i-\bar{x}_n)} 
+\end{aligned}\]
+
+
+\item[b)] You obtain the residuals $\hat{u}_i = y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i$. If you now regress $\hat{u_i}$ on a constant and $x_i$, what will be the ordinary least squares estimates of the intercept and slope?  
+  
+\textit{Solution. }  
+
+We formulate the minimization problem to estimate the OLS estimates of the intercept and slope: 
+\[\min _{b_0, b_1} \frac{1}{n}\Sigma(\hat{u}_i-b_0-b_1 x_i)^2\]
+Since we know that $\hat{u}_i = y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i$, we plug this into the above and rearrange
+\[\begin{aligned}
+&\min _{b_0, b_1} \frac{1}{n}\Sigma(y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i-b_0-b_1 x_i)^2 \\
+=& \min _{b_0, b_1} \frac{1}{n}\Sigma(y_i - \underbrace{(b_0 + \hat{\beta}_0)}_{B_0} - \underbrace{(b_1 + \hat{\beta}_1)}_{B_1} x_i)^2
+\end{aligned}\]
+This problem is exactly the same as the one we solved in a), and we already know that the best estimates of $B_0$ and $B_1$ are $\hat{\beta}_0$ and $\hat{\beta}_1$. Thus, the best estimators of $b_0, b_1$ in the above problem are those that satisfy $B_0 = b_0 + \hat{\beta}_0 = \hat{\beta}_0$ and $B_1 = b_1 + \hat{\beta}_1 = \hat{\beta}_1$, ergo, both $0$. Hence, the intercept and slope of this regression will be $0$. 
+
+\end{enumerate}
+
+\end{document}
