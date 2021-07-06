@@ -1,0 +1,333 @@
+---
+title: "Problem Set 1"
+subtitle: "ECON 21020 Spring, 2021"
+author: "Jake Underland"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: 
+    latex_engine: xelatex
+    extra_dependencies: ["amsmath"]
+    toc: true
+    keep_tex: true
+  html_document:
+    toc: false
+    toc_depth: 3
+    toc_float: yes
+  word_document:
+    toc: false
+    toc_depth: '3'
+---
+</style>
+
+<style type="text/css">
+
+body, td {
+   font-size: 20px;
+}
+
+</style>
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r, include = FALSE}
+library("purrr")
+```
+
+# Question 1  
+
+## Exercise 4  
+  
+\textit{For a randomly selected county in the United States, let $X$ represent the proportion of adults over age 65 who are employed, or the elderly employment rate. Then, $X$ is restricted to a value between zero and one. Suppose that the cumulative distribution function for $X$ is given by $F(x) = 3x^2 - 2x^3$ for $0 \leq x \leq 1$. Find the probability that the elderly employment rate is at least $.6(60\%)$}.  
+  
+```{r}
+F_1 <- function(x){
+  a = 3*x^2 - 2*x^3
+  return(a)
+}
+F_1(0.6)
+```
+
+\[ \begin{aligned}
+P(X \geq 0.6) &= 1 - P(X<0.6) \\
+&= 1 - F(0.6) \\
+&= 1 - 0.648 \\
+&= 0.352
+\end{aligned}\]
+
+
+## Exercise 7  
+\textit{If a basketball player is a $74\%$ free throw shooter, then, on average, how many free throws will he or she make in a game with eight free throw attemtps?}  
+  
+The throws are distributed according to a Binomial distribution where the number of free throws made is $X\sim Bin(8, 0.74)$. Thus, the expected value is $np$. 
+```{r}
+# E[X] = np 
+8 * 0.74
+```
+
+## Exercise 10  
+\textit{Suppose that at a large university, college grade point average, $GPA$, and SAT score, $SAT$, are related by the conditional expectation $E(GPA|SAT) = .70 + .002SAT.$}  
+
+(i). \textit{Find the expected $GPA$ when $SAT = 800$. Find $E(GPA|SAT=1400)$. Comment on the difference.}  
+
+
+  
+```{r}
+E_gpa <- function(sat){
+  e = .70 + .002 * sat
+  return(e)
+}
+```
+```{r}
+cat(" E(GPA|SAT=800) =", E_gpa(800), "\n",
+    "E(GPA|SAT=1400) =", E_gpa(1400), "\n", 
+    "Difference:", abs(E_gpa(800) - E_gpa(1400)))
+```
+
+Expected value of GPA is higher when the student's SAT score is high. 
+
+(ii). \textit{If the average $SAT$ in the university is $1100$, what is the average $GPA$?}  
+  
+$$\begin{aligned} 
+E[GPA] &= E[E[GPA|SAT]] \\
+&= E[.70 + .002SAT] \\
+&= .70 + .002E[SAT] \\
+&= .70 + .002 * 1100 \\
+&= 2.9
+\end{aligned}$$
+  
+(iii). \textit{If a student's SAT score is $1100$, does this mean he or she will have the GPA found in part (ii)?}  
+  
+If a student has an SAT score of 1100, they will be likely to have a GPA in the neighborhood of 2.9, as found in (ii). However, since expected values are probabilistic, this does not mean that all student's with an SAT score of 1100 have the above GPA.  
+  
+## Exercise 11  
+\begin{enumerate} 
+\item[(i)]  \textit{Let $X$ be a random variable taking on the values $-1$ and $1$, each with probability $1/2$. Find $E(X)$ and $E(X^2)$}  
+  
+\[\begin{aligned} 
+E(X) &= 1 * 1/2 + -1 * 1/2 = 0 \\
+E(X^2) &= 1^2 * 1/2 + (-1)^2 * 1/2 \\
+&= 1/2 + 1/2 \\
+&= 1
+\end{aligned}\]
+
+\item[(ii)]  \textit{Now let $X$ be a random variable taking on the values $1$ and $2$, each with probability $1/2$. Find $E(X)$ and $E(1/X)$}  
+  
+\[\begin{aligned} 
+E(X) &= 1 * 1/2 + 2 * 1/2 = 3/2 \\
+E(1/X) &= 1/1 * 1/2 + 1/2 * 1/2 \\
+&= 1/2 + 1/4 \\
+&= 3/4
+\end{aligned}\]
+
+\item[(iii)] \textit{Conclude from parts (i) and (ii) that, in general, $E[g(X)] \neq g(E[X])$ for a nonlinear function $g(\cdot)$.}  
+  
+From part (i),
+\[\begin{aligned}
+E[(X^2)] &= 1 \\
+E[X]^2 &= 0
+\end{aligned}\]  
+
+From part (ii),
+\[\begin{aligned}
+E[(1/X)] &= 3/4 \\
+1/E[X] &= 2/3
+\end{aligned}\]
+
+Thus, we have two examples that show that when a function $g(\cdot)$ is nonlinear, $E[g(X)] \neq g(E[X])$.  
+  
+\item[(iv)] \textit{Given the definition of the $F$ random variable, show that $$E(F) = E[\frac{1}{(X_2/k_2)}].$$ Can you conclude that $E(F) = 1$?}  
+
+\end{enumerate}
+
+\[\begin{aligned} 
+E(F) &= E[\frac{X_1/k_1}{X_2/k_2}] \\
+&= E[\frac{X_1}{X_2}\frac{k_2}{k_1}] \\
+&= \frac{k_2}{k_1}E[\frac{X_1}{X_2}] \\
+&= \frac{k_2}{k_1}E[X_1]E[\frac{1}{X_2}]\dots (Independence) \\
+&=  \frac{k_2}{k_1}k_1E[\frac{1}{X_2}] \\
+&= k_2 E[\frac{1}{X_2}] \\
+&= E[\frac{1}{(X_2/k_2)}] \dots (Linearity)
+\end{aligned}\]  
+  
+We cannot conclude that $E(F) = 1$, because 
+\[\begin{aligned} 
+E[\frac{1}{(X_2/k_2)}] &= k_2 E[\frac{1}{X_2}] \\
+\end{aligned}\]  
+but, in general, $E[g(X)] \neq g(E[X])$, so 
+\[E[\frac{1}{X_2}] \neq 1/E[X_2] = 1/k_2\]. Thus, $$k_2 E[\frac{1}{X_2}] \neq k_2 \cdot 1/k_2 = 1$$.  
+
+# Question 2  
+\textit{Let $X$ be a random variable. Show that $Var (X) \geq 0$ using Jensen’s inequality. Can $Var (X) = 0$?}  
+  
+\[\begin{aligned} 
+Var(X) = E[X^2] - E[X]^2 
+\end{aligned}\]  
+Since $g(x) = x^2$ is convex, from Jensen's Inequality,
+$$\begin{aligned} 
+E[X^2] &\geq E[X]^2 \\
+\implies E[X^2] - E[X]^2 &\geq 0 \\
+\implies Var(X) &\geq 0
+\end{aligned}$$
+
+$Var(X) = 0$, in the discrete case, implies below 
+$$\begin{aligned}
+&\Sigma_x (x -E[X])^2 = 0 \\
+\implies &\forall x \in X, x = E[X] 
+\end{aligned}$$ 
+
+We can reach the same conclusion through analogous reasoning for the continuous case. Thus, $Var(X)$ can equal $0$, and when it does, $p(X = E[X]) = 1$.
+
+# Question 3  
+  
+\break
+
+# Question 4  
+\textit{Show that for random variables $(Y,X)$, $Var(Y) = E(Var(Y|X))+Var(E(Y|X))$. Explain why $V ar (Y ) \neq E (V ar (Y |X))$ using an example. Taking $X$ to be a binary variable might be easiest.}
+\begin{align*}
+Var(Y) &= E[Y^2] - E[Y]^2 \\
+E[Y^2] &= E[E[Y^2|X]] \dots \textit{(Law of iterated expectations)} \\
+&= E[E[Y^2|X] - E[Y|X]^2 + E[Y|X]^2] \\
+&= E[Var(Y|X) + E[Y|X]^2] \\
+&= E[Var(Y|X)] + E[E[Y|X]^2] \\
+\implies Var(Y) &= E[Y^2] - E[Y]^2 \\
+&= E[Var(Y|X)] + E[E[Y|X]^2] - E[Y]^2 \\
+&= E[Var(Y|X)] + E[E[Y|X]^2] - E[E[Y|X]]^2 \dots \textit{(Law of iterated expectations)} \\
+&= E[Var(Y|X)] + Var(E[Y|X]) \tag{1}
+\end{align*}
+
+Now, we examine the case of $Var(Y) \neq E[Var(Y|X)]$. Take $X$ to be a Bernoulli variable taking the values $0$ and $1$. Then, from $(1)$, \[Var(Y) \neq E[Var(Y|X)] \implies Var(E[Y|X]) \neq 0\]
+$Var(E[Y|X]) \neq 0$ implies that all values of $E[Y|X]$ cannot be equal, and thus $E[Y|X=0] \neq E[Y|X=1]$. This condition implies dependence between $X$ and $Y$, since for independence, we must have $E[Y|X=x] = E[Y] = E[E[Y|X]]$ for all $x \in X$.  
+  
+
+# Question 5  
+\textit{Let $X \sim Bernoulli(p)$. Define $Z = 2^X − 1$.}  
+\begin{enumerate}
+\item[a)] \textit{Is $Z$ a random variable? Why? What is the distribution of $Z$?}  
+  
+The values of $Z$ are contingent on the values of $X$, which is a random variable, thus making $Z$ also a random variable. Since $X$ takes a value of $1$ at probability $p$ and $0$ at probability $1-p$, $Z$ takes the following values:
+\[Z = \begin{cases}\begin{aligned}2^1 - 1 = 1 \dots &p \\
+2^0 - 1 = 0 \dots &1-p \end{aligned}
+\end{cases} \]
+Therefore, we can see that $Z$ has a distribution that follows Bernoulli$(p)$, and is distributed identically and dependent on $X$.  
+
+\item[b)] \textit{Show that $E(Z) = p$}  
+  
+\[E(Z) = p \cdot 1 + (1-p) \cdot 0 = p\]
+
+\item[c)] \textit{Show that $E(Z^2) = p$}  
+  
+\[E(Z^2) = p \cdot 1^2 + (1-p) \cdot 0^2 = p\]
+
+\item[d)] \textit{What is $Var(Z)$?}  
+  
+\[\begin{aligned} 
+Var(Z) &= E(Z^2) - E(Z)^2 \\
+&= p - p^2 \\
+&= p(1-p)
+\end{aligned}\]
+  
+\end{enumerate}
+
+# Question 6  
+\textit{Suppose $X\sim Unif[−1,1]$, and let $Y =X^2$. Show that $Cov(X,Y)=0$, but that $X$ and $Y$ are not independent.}  
+  
+\[\begin{aligned} 
+Cov(X,Y) &= E[XY] - E[X]E[Y] \\
+&= \int_{x=-1} ^1 x \cdot x^2 f_x(x) dx  - 0 \cdot E[Y]\\
+&= \int_{x=-1} ^1 \frac{x^3}{2} dx \\
+&= [\frac{1}{8} x^4]^1 _{-1} \\
+&= 0
+\end{aligned}\]
+
+Thus, we see that the covariance of $X, Y$ is $0$. However, from the following plot illustrating $Y$ and $X$, it is apparent that the two are not independent.   
+```{r}
+Y <- function(x) x^2
+X <- c(-1, 1)
+plot(Y, X, xlab = "X")
+```
+
+For a more mathematical proof, since $Y = X^2$, we know that $E[Y|X = x] = x^2$. However, 
+\[\begin{aligned} 
+E[Y] &= E_X[E_{Y|X}[Y|X]] \\
+&= \int _x E_{Y|X}[Y|X=x] \cdot f_x(x) dx\\
+&= \int _{x = -1} ^{1} x^2 \cdot \frac{1}{2} dx \\
+&= [\frac{1}{6}x^3]^1 _ {-1} \\
+&= \frac{1}{3}
+\end{aligned}\]
+Thus, for example, $E[Y|X=0] = 0 \neq \frac{1}{3} = E[Y]$ and thus $Y$ is not mean independent of $X$, meaning they cannot be independent.  
+
+# Question 7  
+\textit{Let $Y = a + bX + U$, where $X$ and $U$ are random variables and $a$ and $b$ are constants. Assume that $E(U|X)=0$ and $Var(U|X)=X^2$.}  
+  
+\begin{enumerate}
+\item[(a)] \textit{Is $Y$ a random variable? Why?}  
+  
+Yes, $Y$ is a random variable because it is dependent on the values of two random variables, each with their own probabilistic distributions. 
+
+\item[(b)] \textit{Is $U$ mean independent of $X$? Why? Is $U$ independent of $X$? Why?}  
+  
+First, 
+\[\begin{aligned} 
+E[U] &= E[E[U|X]] \\
+&= E[0] \\
+&= 0
+\end{aligned}\]
+Furthermore, 
+$$E[U|X] = 0$$
+Hence, 
+$$E[U] = E[U|X] =0$$
+Therefore, $U$ is mean independent of $X$. However, this does not imply that $U$ is independent of $X$. In fact, since, as we show in (d), $Var(U|X) = X^2$ and $Var(U) = E(X^2)$, we see that some features of $U$ are determined by $X$, which would suggest dependency. 
+
+\item[(c)] \textit{Show that $E(U)=0$ and $Var(U)=E(X^2)$ .}
+  
+We have already shown above that $E(U) = 0$.  
+For $Var(U)$, 
+\[\begin{aligned}
+Var(U) &= E(Var(U|X))+Var(E(U|X)) \\
+&= E[X^2] + Var(0) \\
+&= E[X^2] + 0 \\
+&= E[X^2]
+\end{aligned}\]  
+  
+\item[(d)] \textit{Show that $ E (Y|X) = a + bX$, and that $E (Y) = a + bE (X)$.}  
+  
+\[\begin{aligned}
+E(Y|X) &= E[a + bX + U | X] \\
+&= a + bE[X|X] + E[U|X] \dots \textit{(Linearity)} \\
+&= a + bX + 0 \\
+&= a + bX \\
+\\
+E(Y) &= E(E(Y|X)) \\
+&= E(a + bX) \\
+&= a + bE(X) \dots \textit{(Linearity)}
+\end{aligned}\] 
+  
+  
+\item[(e)] \textit{Show that $Var(Y|X)=X^2$, and that $Var(Y)=b^2 Var(X)+E(X^2)$.}  
+  
+$$\begin{aligned}
+Var(Y|X) &= E(Y^2|X) - E(Y|X)^2 \\
+&= E[(a + bX + U)^2|X] - (a + bX)^2 \\
+&= E[U^2 + 2(a + bX) U + (a + bX)^2|X] - (a + bX)^2 \\
+&= E[U^2|X] + 2(a + bX) E[U|X] + (a + bX)^2 - (a + bX)^2 \\
+&= E[U^2|X] + 2(a + bX) \cdot 0 \\
+&= Var(U|X) + E[U|X] ^ 2 \\
+&= X^2 + 0 \\
+&= X^2 \\
+\\
+Var(Y) &= E(Var(Y|X)) + Var(E(Y|X)) \\
+&= E(X^2) + Var(a + bX) \\
+&= E(X^2) + b^2Var(X)
+\end{aligned}$$
+
+
+\end{enumerate}
+
+
+
+
+
+
+
